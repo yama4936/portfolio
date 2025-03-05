@@ -1,101 +1,176 @@
-import Image from "next/image";
+"use client"
+import Image from "next/image"
+import Link from "next/link"
+import { Github, Mail, Instagram } from "lucide-react"
+import { motion } from "framer-motion"
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  // アニメーションの設定
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        duration: 0.5,
+        staggerChildren: 0.3,
+      },
+    },
+  }
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  const itemVariants = {
+    hidden: { y: 50, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  }
+
+  const cardVariants = {
+    hidden: { x: -50, opacity: 0 },
+    visible: {
+      x: 0,
+      opacity: 1,
+      transition: { duration: 0.5 },
+    },
+  }
+
+  return (
+    <div className="min-h-screen bg-[#313131] text-white">
+      {/* ヘッダー（固定） */}
+      <header className="fixed top-0 left-0 right-0 bg-[#313131] z-50 flex justify-between items-center px-8 py-6 shadow-md">
+        <div className="font-bold text-xl">
+          <Link href="/">
+            <Image src="/images/logo.png" alt="Logo" width={100} height={100}/>
+          </Link>
         </div>
+        <nav className="flex gap-8">
+          <Link href="#about" className="hover:underline">
+            About me
+          </Link>
+          <Link href="#deliverables" className="hover:underline">
+            Deliverables
+          </Link>
+        </nav>
+      </header>
+
+      <main className="max-w-4xl mx-auto px-8 pt-32 pb-12">
+        {/* プロフィールセクション */}
+        <motion.section
+          className="flex flex-col items-center md:items-stretch md:flex-row gap-8 mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
+        >
+          <motion.div className="md:w-1/2 flex items-center justify-center md:justify-start" variants={itemVariants}>
+            <h1 className="text-5xl font-bold px-">Yamada Kota</h1>
+          </motion.div>
+          <motion.div className="md:w-1/2 flex justify-center md:justify-end" variants={itemVariants}>
+            <div className="relative w-64 h-64 rounded-full overflow-hidden">
+              <Image src="/images/profile.jpg?height=256&width=256" alt="Yamada Kota" fill className="object-cover" />
+            </div>
+          </motion.div>
+        </motion.section>
+
+        {/* Aboutセクション */}
+        <motion.section
+          id="about"
+          className="mb-20"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.h2 className="text-3xl font-bold mb-8 text-center" variants={itemVariants}>
+            自己紹介
+          </motion.h2>
+          <motion.p className="text-center mb-12" variants={itemVariants}>
+            中京大学工学部情報工学科
+          </motion.p>
+
+          <motion.div className="flex justify-center gap-12" variants={containerVariants}>
+            <motion.div variants={itemVariants}>
+              <Link href="https://github.com" className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Github size={32} />
+                </div>
+                <span className="text-sm">Github</span>
+              </Link>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Link href="mailto:example@email.com" className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Mail size={32} />
+                </div>
+                <span className="text-sm">メールアドレス</span>
+              </Link>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Link href="https://twitter.com" className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="32"
+                    height="32"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                    <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772"></path>
+                  </svg>
+                </div>
+                <span className="text-sm">X</span>
+              </Link>
+            </motion.div>
+
+            <motion.div variants={itemVariants}>
+              <Link href="https://instagram.com" className="flex flex-col items-center gap-2">
+                <div className="w-12 h-12 flex items-center justify-center">
+                  <Instagram size={32} />
+                </div>
+                <span className="text-sm">Instagram</span>
+              </Link>
+            </motion.div>
+          </motion.div>
+        </motion.section>
+
+        {/* 成果物セクション */}
+        <motion.section
+          id="deliverables"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+        >
+          <motion.h2 className="text-3xl font-bold mb-8 text-center" variants={itemVariants}>
+            成果物
+          </motion.h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[1, 2, 3, 4].map((item) => (
+              <motion.div
+                key={item}
+                className="bg-[#d9d9d9] rounded-lg p-6 text-[#313131] hover:shadow-lg transition-shadow"
+                variants={cardVariants}
+                whileHover={{ scale: 1.03 }}
+                transition={{ type: "spring", stiffness: 400, damping: 10 }}
+              >
+                <h3 className="font-bold text-lg mb-2">タイトル</h3>
+                <p className="text-sm text-[#767676]">
+                  ここに説明文を入力してください。主なポイント、引用、エピソード、または短い物語などを追加できます。
+                </p>
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
-  );
+  )
 }
+
